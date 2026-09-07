@@ -62,7 +62,7 @@
     "lint": "oxlint --quiet src modules",
     "lint-native": "swiftlint ./modules && ktlint ./modules",
     "lint-native:fix": "swiftlint --fix ./modules && ktlint --format ./modules",
-    "lexicons:generate": "lex build --clear --index-file --import-ext ''",
+    "lexicons:generate": "lex build --clear --index-file --import-ext= && node scripts/fix-lexicon-imports.mjs",
     "lexicons:install": "lex install",
     "lexicons:update": "lex install --update",
     "lexicons:verify": "lex install --ci",

@@ -9,11 +9,13 @@ import {
   createPlaybackTelemetry,
   type PlaybackTelemetry,
 } from '#/lib/media/video/playbackTelemetry'
+import {useBluvyTubePlayer} from '#/state/preferences'
 import {ErrorBoundary} from '#/view/com/util/ErrorBoundary'
 import {atoms as a, platform} from '#/alf'
 import {Button} from '#/components/Button'
 import {useThrottledValue} from '#/components/hooks/useThrottledValue'
 import {ConstrainedImage} from '#/components/images/AutoSizedImage'
+import {BluvyTubePlayer} from '#/components/Post/Embed/BluvyTubePlayer'
 import {PlayButtonIcon} from '#/components/video/PlayButtonIcon'
 import {useAnalytics} from '#/analytics'
 import {type app} from '#/lexicons'
@@ -28,6 +30,8 @@ interface Props {
 
 export function VideoEmbed({embed, post}: Props) {
   const [key, setKey] = useState(0)
+  const useBluvyTube = useBluvyTubePlayer()
+  const isGif = embed.presentation === 'gif'
 
   const renderError = useCallback(
     (error: unknown) => (
@@ -49,6 +53,18 @@ export function VideoEmbed({embed, post}: Props) {
   if (aspectRatio !== undefined) {
     const ratio = 1 / 2 // max of 1:2 ratio in feeds
     constrained = Math.max(aspectRatio, ratio)
+  }
+
+  if (useBluvyTube && !isGif) {
+    return (
+      <View style={[a.pt_xs]}>
+        <ConstrainedImage
+          aspectRatio={constrained ?? 16 / 9}
+          minMobileAspectRatio={14 / 9}>
+          <BluvyTubePlayer embed={embed} post={post} />
+        </ConstrainedImage>
+      </View>
+    )
   }
 
   const contents = (

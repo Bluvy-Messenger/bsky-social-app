@@ -10,12 +10,14 @@ import {View} from 'react-native'
 import {msg} from '@lingui/core/macro'
 import {useLingui} from '@lingui/react'
 
+import {useBluvyTubePlayer} from '#/state/preferences'
 import {ErrorBoundary} from '#/view/com/util/ErrorBoundary'
 import {atoms as a, useTheme} from '#/alf'
 import {useIsWithinMessage} from '#/components/dms/MessageContext'
 import {useFullscreen} from '#/components/hooks/useFullscreen'
 import {ConstrainedImage} from '#/components/images/AutoSizedImage'
 import {MediaInsetBorder} from '#/components/MediaInsetBorder'
+import {BluvyTubePlayer} from '#/components/Post/Embed/BluvyTubePlayer'
 import {
   HLSFatalError,
   HLSUnsupportedError,
@@ -146,6 +148,24 @@ export function VideoEmbed({
     aspectRatio === undefined ||
     aspectRatio < 1 / 2 ||
     (containerWidth > 0 && cardWidth < MIN_CARD_WIDTH)
+
+  const useBluvyTube = useBluvyTubePlayer()
+
+  if (useBluvyTube && !isGif) {
+    return (
+      <View
+        style={[a.pt_xs]}
+        onLayout={e => setContainerWidth(e.nativeEvent.layout.width)}>
+        <ConstrainedImage
+          fullBleed={fullBleed}
+          aspectRatio={constrained ?? 16 / 9}
+          minMobileAspectRatio={14 / 9}>
+          <BluvyTubePlayer embed={embed} post={post} />
+          <MediaInsetBorder />
+        </ConstrainedImage>
+      </View>
+    )
+  }
 
   const contents = (
     <div

@@ -1,0 +1,4 @@
+# Normalize line endings: store text as LF in the repo, check out LF on every
+# platform. Without this, a Windows checkout with core.autocrlf=true reports the
+# entire tree as modified. Binary files are auto-detected and left untouched.
+* text=auto eol=lf

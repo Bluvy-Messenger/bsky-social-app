@@ -12,7 +12,9 @@ import {
   externalEmbedLabels,
 } from '#/lib/strings/embed-player'
 import {
+  useBluvyTubePlayer,
   useExternalEmbedsPrefs,
+  useSetBluvyTubePlayer,
   useSetExternalEmbedPref,
 } from '#/state/preferences'
 import {atoms as a, native} from '#/alf'
@@ -26,6 +28,9 @@ type Props = NativeStackScreenProps<
   'PreferencesExternalEmbeds'
 >
 export function ExternalMediaPreferencesScreen({}: Props) {
+  const useBluvyTube = useBluvyTubePlayer()
+  const setUseBluvyTube = useSetBluvyTubePlayer()
+
   return (
     <Layout.Screen testID="externalMediaPreferencesScreen">
       <Layout.Header.Outer>
@@ -39,6 +44,38 @@ export function ExternalMediaPreferencesScreen({}: Props) {
       </Layout.Header.Outer>
       <Layout.Content>
         <SettingsList.Container>
+          <SettingsList.Group iconInset={false}>
+            <SettingsList.ItemText>
+              <Trans>Bluvy Tube Integration</Trans>
+            </SettingsList.ItemText>
+            <View style={[a.mt_sm, a.w_full]}>
+              <Toggle.Item
+                name="bluvyTubePlayerToggle"
+                label="Use Bluvy Tube video player"
+                type="checkbox"
+                value={useBluvyTube}
+                onChange={() => setUseBluvyTube(!useBluvyTube)}
+                style={[
+                  a.flex_1,
+                  a.py_md,
+                  native([a.justify_between, a.flex_row_reverse]),
+                ]}>
+                <Toggle.Platform />
+                <View style={[a.flex_1, a.gap_2xs]}>
+                  <Toggle.LabelText style={[a.text_md, a.font_semi_bold]}>
+                    <Trans>Use Bluvy Tube video player</Trans>
+                  </Toggle.LabelText>
+                  <Toggle.LabelText style={[a.text_sm, a.leading_snug]}>
+                    <Trans>
+                      Plays videos with the enhanced Bluvy Tube player (playback
+                      speed, chapters and captions).
+                    </Trans>
+                  </Toggle.LabelText>
+                </View>
+              </Toggle.Item>
+            </View>
+          </SettingsList.Group>
+
           <SettingsList.Item>
             <Admonition type="info" style={[a.flex_1]}>
               <Trans>

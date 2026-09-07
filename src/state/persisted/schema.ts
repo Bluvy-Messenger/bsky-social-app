@@ -119,6 +119,7 @@ const schema = z.object({
       soundcloud: z.enum(externalEmbedOptions).optional(),
       flickr: z.enum(externalEmbedOptions).optional(),
       bandcamp: z.enum(externalEmbedOptions).optional(),
+      bluvyTube: z.enum(externalEmbedOptions).optional(),
     })
     .optional(),
   invites: z.object({
@@ -134,6 +135,7 @@ const schema = z.object({
   pdsAddressHistory: z.array(z.string()).optional(),
   disableHaptics: z.boolean().optional(),
   disableAutoplay: z.boolean().optional(),
+  useBluvyTubePlayer: z.boolean().optional(),
   kawaii: z.boolean().optional(),
   hasCheckedForStarterPack: z.boolean().optional(),
   subtitlesEnabled: z.boolean().optional(),
@@ -183,6 +185,7 @@ export const defaults: Schema = {
   pdsAddressHistory: [],
   disableHaptics: false,
   disableAutoplay: PlatformInfo.getIsReducedMotionEnabled(),
+  useBluvyTubePlayer: false,
   kawaii: false,
   hasCheckedForStarterPack: false,
   subtitlesEnabled: true,
